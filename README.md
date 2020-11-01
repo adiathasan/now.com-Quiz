@@ -15,7 +15,7 @@ Learning Resources have been given on the home page of this site.
 
 
 Let's consider, we have a simple website which will be used by
-people who are running business through facebook page. They will upload/create an order in our page and we'll manage the delivery for them. We'll collect the parcel from them, do necessary packaging, contact with the actual customer and do the final doorstep delivery
+people who are running business through facebook page. They will upload/create an order in our website and we'll manage the delivery for them. We'll collect the parcel from them, do necessary packaging, contact with the actual customer and do the final doorstep delivery
 
  Note  -- > **Seller == Merchant == Now's customer**
 
