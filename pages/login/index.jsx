@@ -33,7 +33,7 @@ const index = () => {
 
   const doesRedirectExists = router.query.redirect;
 
-  const redirect = doesRedirectExists ? router.query.redirect : '/';
+  const redirect = doesRedirectExists ? router.query.redirect : '/order';
 
   useEffect(() => {
     if (user) {
