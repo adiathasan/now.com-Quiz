@@ -1,6 +1,12 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+export default ({ body, headers }, res) => {
+  const token = headers.authorization.split(' ')[1];
 
-export default (req, res) => {
-  res.statusCode = 200
-  res.json({ result: 'You dont need a complete implementation of this. but returning the data would be awesome' })
-}
+  // also to check if user has certain permission or not
+
+  if (token !== 'undefined') {
+    res.statusCode = 200;
+    res.json({ result: JSON.parse(body) });
+  } else {
+    res.json({ result: 'Not Authorized' });
+  }
+};
