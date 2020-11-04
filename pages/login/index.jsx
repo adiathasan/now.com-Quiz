@@ -1,21 +1,34 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import styles from './login.module.css';
+import { Button, TextField } from '@material-ui/core';
+import Head from 'next/head';
 import useAuth from '../../hooks/useAuth';
 import Header from '../../components/header/Header.jsx';
+import Message from '../../components/message/Message.jsx';
 
 const index = () => {
   const [email, setEmail] = useState('eve.holt@reqres.in');
   const [password, setPassword] = useState('cityslicka');
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [messageType, setMessageType] = useState(null);
 
   const router = useRouter();
 
   const [user, LoginUser, LogoutUser, error] = useAuth();
 
-  console.log(user);
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    LoginUser({ email, password });
+    console.log(email, password);
+    if (email === '' || password === '') {
+      setAlertMessage(`Oops! email or password is empty`);
+      setMessageType('error');
+      setTimeout(() => {
+        setAlertMessage(null);
+      }, 6000);
+    } else {
+      LoginUser({ email, password });
+    }
   };
 
   const doesRedirectExists = router.query.redirect;
@@ -30,22 +43,49 @@ const index = () => {
 
   return (
     <>
+      <Head>
+        <title>Now Quiz | Log In</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Header />
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-        />
-        <br />
-        <input
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-        />
-        <br />
-        <button type="submit">submit</button>
-      </form>
+
+      <div className={styles.login}>
+        <form
+          className={styles.login__form}
+          noValidate
+          autoComplete="off"
+          onSubmit={handleSubmit}
+        >
+          <TextField
+            className={styles.login__input}
+            label="Email"
+            required
+            variant="outlined"
+            color="primary"
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
+
+          <TextField
+            className={styles.login__input}
+            label="Password"
+            required
+            variant="outlined"
+            color="primary"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
+
+          <Button fullWidth variant="contained" color="primary" type="submit">
+            submit
+          </Button>
+          {alertMessage && (
+            <Message message={alertMessage} type={messageType} />
+          )}
+        </form>
+      </div>
     </>
   );
 };

@@ -16,6 +16,7 @@ const useOrder = () => {
   //          client <-- server <--
 
   const submitOrder = async (order) => {
+    setIsLoading(true);
     const config = {
       headers: {
         'Content-type': 'aplication/json',
@@ -30,6 +31,7 @@ const useOrder = () => {
       setIsLoading(false);
     } catch (error) {
       setErrorOrder(error);
+      setIsLoading(false);
     }
   };
 

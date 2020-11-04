@@ -1,18 +1,25 @@
 import { useEffect, useState } from 'react';
 import { nth, head } from 'lodash';
-import useLoading from '../../hooks/useLoading';
+import { Button, Typography } from '@material-ui/core';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 import useAuth from '../../hooks/useAuth';
 import useOrder from '../../hooks/useOrder';
-import { useRouter } from 'next/router';
 import Header from '../../components/header/Header';
+import styles from './order.module.css';
+import Message from '../../components/message/Message.jsx';
+import { useQuizContext } from '../../hooks/quizContext';
+
 const index = () => {
   // hooks
+  const props = useQuizContext();
 
-  const [_, setIsLoading] = useLoading();
   const [user] = useAuth();
-  const [__, submitOrder, errorOrder] = useOrder();
+  const [order, submitOrder, errorOrder] = useOrder();
 
   const router = useRouter();
+
+  console.log(order);
 
   useEffect(() => {
     if (!user) {
@@ -26,6 +33,40 @@ const index = () => {
   const [address, setAddress] = useState('');
   const [amount, setAmount] = useState('');
   const [message, setMessage] = useState('');
+  const [alertMessage, setAlertMessage] = useState(null);
+  const [messageType, setMessageType] = useState(null);
+
+  useEffect(() => {
+    if (order.result) {
+      setAlertMessage(`successfully Order Created for ${order.result.name}`);
+      setMessageType('success');
+
+      // reset field
+
+      setInput('');
+      setName('');
+      setPhone('');
+      setAddress('');
+      setAmount('');
+      setMessage('');
+
+      setTimeout(() => {
+        setAlertMessage(null);
+      }, 6000);
+    }
+  }, [order]);
+
+  useEffect(() => {
+    if (errorOrder) {
+      setAlertMessage(errorOrder.result);
+      setMessageType('error');
+      setTimeout(() => {
+        setAlertMessage(null);
+      }, 6000);
+    }
+  }, [errorOrder]);
+
+  // @auto fill func
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,11 +97,10 @@ const index = () => {
     setMessage(nth(cleanedData, -1) || '');
   };
 
-  // submit
+  // submit order
 
   const handleSubmitCleanedData = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
     submitOrder({
       name,
       phone,
@@ -69,6 +109,8 @@ const index = () => {
       message,
     });
   };
+
+  // swipe up
 
   const handleUp = (e) => {
     e.preventDefault();
@@ -107,6 +149,8 @@ const index = () => {
         break;
     }
   };
+
+  // swipe down
 
   const handleDown = (e) => {
     e.preventDefault();
@@ -147,86 +191,136 @@ const index = () => {
   };
 
   return (
-    <div>
+    <>
+      <Head>
+        <title>Now Quiz | Order</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Header />
-      <form onSubmit={handleSubmit}>
-        <textarea
-          name="text"
-          id="mian"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        ></textarea>
-        <button type="submit">Auto Fill</button>
-      </form>
-      <form onSubmit={handleSubmitCleanedData}>
-        <div>
-          <input
-            type="text"
-            value={name}
-            placeholder="name here"
-            id="name"
-            onChange={(e) => setName(e.target.value)}
-          />
-          <div className="swipe">
-            <button onClick={handleDown}>Down</button>
+      <div className={styles.order}>
+        <form className={styles.order__textForm} onSubmit={handleSubmit}>
+          <Typography variant="body1">Paste Your Order Here</Typography>
+          <textarea
+            required
+            className={styles.order__textarea}
+            name="text"
+            id="mian"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          ></textarea>
+          <Button variant="contained" color="secondary" fullWidth type="submit">
+            Auto Fill
+          </Button>
+        </form>
+        <form
+          className={styles.order__mainForm}
+          onSubmit={handleSubmitCleanedData}
+        >
+          {alertMessage && (
+            <Message message={alertMessage} type={messageType} />
+          )}
+          <Typography variant="body1">Swipe If You Need To</Typography>
+          <div>
+            <input
+              required
+              className={styles.order__input}
+              type="text"
+              value={name}
+              placeholder="name..."
+              id="name"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <div className="swipe">
+              <button onClick={handleDown} className={styles.btn__down}>
+                Down
+              </button>
+            </div>
           </div>
-        </div>
-        <div>
-          <input
-            type="text"
-            value={phone}
-            placeholder="phone here"
-            id="phone"
-            onChange={(e) => setPhone(e.target.value)}
-          />
-          <div className="swipe">
-            <button onClick={handleUp}>up</button>
-            <button onClick={handleDown}>Down</button>
+          <div>
+            <input
+              required
+              className={styles.order__input}
+              type="text"
+              value={phone}
+              placeholder="phone..."
+              id="phone"
+              onChange={(e) => setPhone(e.target.value)}
+            />
+            <div className="swipe">
+              <button onClick={handleUp} className={styles.btn__up}>
+                up
+              </button>
+              <button onClick={handleDown} className={styles.btn__down}>
+                Down
+              </button>
+            </div>
           </div>
-        </div>
-        <div>
-          <input
-            type="text"
-            value={address}
-            placeholder="address here"
-            id="address"
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <div className="swipe">
-            <button onClick={handleUp}>up</button>
-            <button onClick={handleDown}>Down</button>
+          <div>
+            <textarea
+              required
+              className={styles.order__input}
+              type="text"
+              value={address}
+              placeholder="address..."
+              id="address"
+              onChange={(e) => setAddress(e.target.value)}
+            />
+            <div className="swipe">
+              <button onClick={handleUp} className={styles.btn__up}>
+                up
+              </button>
+              <button onClick={handleDown} className={styles.btn__down}>
+                Down
+              </button>
+            </div>
           </div>
-        </div>
-        <div>
-          <input
-            type="text"
-            value={amount}
-            placeholder="amount here"
-            id="amount"
-            onChange={(e) => setAmount(e.target.value)}
-          />
-          <div className="swipe">
-            <button onClick={handleUp}>up</button>
-            <button onClick={handleDown}>Down</button>
+          <div>
+            <input
+              required
+              className={styles.order__input}
+              type="text"
+              value={amount}
+              placeholder="amount..."
+              id="amount"
+              onChange={(e) => setAmount(e.target.value)}
+            />
+            <div className="swipe">
+              <button onClick={handleUp} className={styles.btn__up}>
+                up
+              </button>
+              <button onClick={handleDown} className={styles.btn__down}>
+                Down
+              </button>
+            </div>
           </div>
-        </div>
-        <div>
-          <input
-            type="text"
-            value={message}
-            placeholder="message here"
-            id="message"
-            onChange={(e) => setMessage(e.target.value)}
-          />
-          <div className="swipe">
-            <button onClick={handleUp}>up</button>
+          <div>
+            <input
+              required
+              className={styles.order__input}
+              type="text"
+              value={message}
+              placeholder="message..."
+              id="message"
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            <div className="swipe">
+              <button onClick={handleUp} className={styles.btn__up}>
+                up
+              </button>
+            </div>
           </div>
-        </div>
-        <button type="submit" className="btn-block">
-          Submit
-        </button>
-      </form>
-    </div>
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            type="submit"
+            className="btn-block"
+          >
+            Submit
+          </Button>
+        </form>
+      </div>
+    </>
   );
 };
 

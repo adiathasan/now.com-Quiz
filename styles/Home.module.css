@@ -1,0 +1,50 @@
+.main {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 85vh;
+}
+
+.design {
+  height: 200px;
+  max-height: 80%;
+  width: 200px;
+  max-width: 80%;
+  background-color: red;
+  animation: pulse 3s ease infinite alternate,
+    nudge 10s linear infinite alternate;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    background-color: #037ff3;
+  }
+  50% {
+    background-color: #43048b;
+  }
+}
+
+.anime {
+  color: white;
+}
+
+@keyframes nudge {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(150px, 0);
+  }
+
+  80% {
+    transform: translate(-150px, 0);
+  }
+}

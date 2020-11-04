@@ -42,6 +42,6 @@ const QuizContextProvider = ({ children }) => {
   );
 };
 
-export const useQuizContext = () => useContext(QuizContextProvider);
+export const useQuizContext = () => useContext(QuizContext);
 
 export default QuizContextProvider;

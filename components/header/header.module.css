@@ -1,6 +1,21 @@
 .root {
   flex-grow: 1;
+  z-index: -1;
 }
 .title {
   flex-grow: 1;
+  position: relative;
+}
+
+.title__image {
+  height: 30px;
+  z-index: 100;
+}
+
+.title__text {
+  position: absolute;
+  z-index: 1;
+  top: 0.3rem;
+  left: 0.5rem;
+  color: rgb(6, 207, 113);
 }

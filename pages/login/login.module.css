@@ -1,0 +1,40 @@
+.login {
+  height: 85vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login__form {
+  padding: 3rem;
+  border-radius: 6px;
+  box-shadow: 0 3px 7px -2px rgba(0, 0, 0, 0.356);
+  max-width: 100%;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  animation: slideUp 4s linear infinite alternate;
+  z-index: 100;
+}
+
+.login__input {
+  margin: 1rem auto;
+}
+
+.login__form > button {
+  margin: 1rem 0;
+}
+
+/* @keyframes */
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(-2vh);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

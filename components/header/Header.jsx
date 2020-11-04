@@ -7,6 +7,7 @@ import useAuth from '../../hooks/useAuth';
 import Link from 'next/link';
 import styles from './header.module.css';
 import useLoading from '../../hooks/useLoading';
+import Loader from '../loader/Loader.jsx';
 
 const Header = () => {
   const [user, _, logoutUser, __] = useAuth();
@@ -15,13 +16,23 @@ const Header = () => {
   return (
     <div className={styles.root}>
       <AppBar position="static">
+        {isLoading && <Loader />}
         <Toolbar>
           <Typography variant="h5" className={styles.title}>
             <Button color="inherit">
               <Link href="/">
-                <a>Now</a>
+                <a>
+                  <img
+                    className={styles.title__image}
+                    src="./favicon.ico"
+                    alt="logo"
+                  />
+                </a>
               </Link>
             </Button>
+            <Link href="/">
+              <a className={styles.title__text}>Now</a>
+            </Link>
           </Typography>
           <Button color="inherit">
             <Link href="/order">
