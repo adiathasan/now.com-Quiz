@@ -51,6 +51,11 @@ const reducer = (state, action) => {
         ...state,
         error: action.payload,
       };
+    case orderTypes.ORDER_RESET:
+      return {
+        ...state,
+        order: {},
+      };
 
     default:
       return state;

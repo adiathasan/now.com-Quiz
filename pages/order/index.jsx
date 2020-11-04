@@ -8,11 +8,12 @@ import Header from '../../components/header/Header';
 import styles from './order.module.css';
 import Message from '../../components/message/Message.jsx';
 import { useQuizContext } from '../../hooks/quizContext';
+import { ORDER_RESET } from '../../constants/orderConstants';
 
 const index = () => {
   // hooks
 
-  const { user, order, error } = useQuizContext();
+  const { user, order, error, dispatch } = useQuizContext();
   const [submitOrder] = useOrder();
 
   const router = useRouter();
@@ -48,6 +49,7 @@ const index = () => {
 
       setTimeout(() => {
         setAlertMessage(null);
+        dispatch({ type: ORDER_RESET });
       }, 4000);
     }
   }, [order]);
