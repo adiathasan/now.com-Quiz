@@ -3,7 +3,6 @@ import { nth, head } from 'lodash';
 import { Button, Typography } from '@material-ui/core';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import useAuth from '../../hooks/useAuth';
 import useOrder from '../../hooks/useOrder';
 import Header from '../../components/header/Header';
 import styles from './order.module.css';
@@ -12,14 +11,11 @@ import { useQuizContext } from '../../hooks/quizContext';
 
 const index = () => {
   // hooks
-  const props = useQuizContext();
 
-  const [user] = useAuth();
-  const [order, submitOrder, errorOrder] = useOrder();
+  const { user, order, error } = useQuizContext();
+  const [submitOrder] = useOrder();
 
   const router = useRouter();
-
-  console.log(order);
 
   useEffect(() => {
     if (!user) {
@@ -52,24 +48,25 @@ const index = () => {
 
       setTimeout(() => {
         setAlertMessage(null);
-      }, 6000);
+      }, 4000);
     }
   }, [order]);
 
   useEffect(() => {
-    if (errorOrder) {
+    if (error) {
       setAlertMessage(errorOrder.result);
       setMessageType('error');
       setTimeout(() => {
         setAlertMessage(null);
       }, 6000);
     }
-  }, [errorOrder]);
+  }, [error]);
 
   // @auto fill func
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const breakedInput = input.split(/\r|\n/);
 
     // cleanig the data
@@ -101,6 +98,11 @@ const index = () => {
 
   const handleSubmitCleanedData = async (e) => {
     e.preventDefault();
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
     submitOrder({
       name,
       phone,

@@ -13,7 +13,7 @@ const useStyles = makeStyles({
 
 const Loader = () => {
   const classes = useStyles();
-  const [progress, setProgress] = useState(12);
+  const [progress, setProgress] = useState(100);
 
   useEffect(() => {
     const timer = setInterval(() => {

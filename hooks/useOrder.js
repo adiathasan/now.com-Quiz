@@ -1,22 +1,19 @@
-import { useState } from 'react';
 import { instanceAxios } from '../config/axios';
-import useAuth from './useAuth';
-import useLoading from './useLoading';
+import { LOADING_END, LOADING_START } from '../constants/loaderConstants';
+import { ORDER_SUCCESS } from '../constants/orderConstants';
+import { useQuizContext } from './quizContext';
 
 const useOrder = () => {
   // hooks
 
-  const [user] = useAuth();
-  const [_, setIsLoading] = useLoading();
-
-  const [order, setOrder] = useState({});
-  const [errorOrder, setErrorOrder] = useState('');
+  const { user, dispatch } = useQuizContext();
 
   // client --> server --> database
   //          client <-- server <--
 
   const submitOrder = async (order) => {
-    setIsLoading(true);
+    dispatch({ type: LOADING_START });
+
     const config = {
       headers: {
         'Content-type': 'aplication/json',
@@ -26,16 +23,15 @@ const useOrder = () => {
 
     try {
       const { data } = await instanceAxios.post('/order', order, config);
-      console.log(data);
-      setOrder(data);
-      setIsLoading(false);
+      dispatch({ type: ORDER_SUCCESS, payload: data });
+      dispatch({ type: LOADING_END });
     } catch (error) {
-      setErrorOrder(error);
-      setIsLoading(false);
+      dispatch({ type: ORDER_SUCCESS, payload: error });
+      dispatch({ type: LOADING_END });
     }
   };
 
-  return [order, submitOrder, errorOrder];
+  return [submitOrder];
 };
 
 export default useOrder;

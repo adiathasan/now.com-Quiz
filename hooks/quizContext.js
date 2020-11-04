@@ -1,5 +1,7 @@
 import React, { createContext, useReducer, useContext } from 'react';
-import * as types from '../constants/userConstants';
+import * as userTypes from '../constants/userConstants';
+import * as loaderTypes from '../constants/loaderConstants';
+import * as orderTypes from '../constants/orderConstants';
 
 // initialized global store
 
@@ -9,16 +11,45 @@ export const QuizContext = createContext();
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case types.USER_LOGIN_SUCCESS:
+    // user
+    case userTypes.USER_LOGIN_SUCCESS:
+      localStorage.setItem('userInfo', JSON.stringify(action.payload));
       return {
         ...state,
         user: action.payload,
       };
-
-    case types.USER_LOGOUT_SUCCESS:
+    case userTypes.USER_LOGIN_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case userTypes.USER_LOGOUT_SUCCESS:
+      localStorage.removeItem('userInfo');
       return {
         ...state,
         user: null,
+      };
+    // loader
+    case loaderTypes.LOADING_START:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case loaderTypes.LOADING_END:
+      return {
+        ...state,
+        isLoading: false,
+      };
+    // order
+    case orderTypes.ORDER_SUCCESS:
+      return {
+        ...state,
+        order: action.payload,
+      };
+    case orderTypes.ORDER_FAILURE:
+      return {
+        ...state,
+        error: action.payload,
       };
 
     default:
@@ -26,17 +57,36 @@ const reducer = (state, action) => {
   }
 };
 
-// const getTokenFromLocalStorage = localStorage.getItem('user')
-//   ? JSON.parse(localStorage.getItem('user'))
-//   : null;
+// localstorage config
+
+let getUserFromLocalStorage;
+const isServer = typeof window === 'undefined';
+
+if (!isServer) {
+  const isUserInLocalStorage = localStorage.getItem('userInfo');
+  getUserFromLocalStorage = isUserInLocalStorage
+    ? JSON.parse(localStorage.getItem('userInfo'))
+    : null;
+}
+
+// store provider
 
 const QuizContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, {
-    user: null,
+    user: getUserFromLocalStorage,
+    isLoading: false,
+    order: {},
   });
 
   return (
-    <QuizContext.Provider value={{ user: state.user, dispatch }}>
+    <QuizContext.Provider
+      value={{
+        user: state.user,
+        dispatch,
+        isLoading: state.isLoading,
+        order: state.order,
+      }}
+    >
       {children}
     </QuizContext.Provider>
   );

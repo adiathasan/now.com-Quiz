@@ -6,6 +6,7 @@ import Head from 'next/head';
 import useAuth from '../../hooks/useAuth';
 import Header from '../../components/header/Header.jsx';
 import Message from '../../components/message/Message.jsx';
+import { useQuizContext } from '../../hooks/quizContext';
 
 const index = () => {
   const [email, setEmail] = useState('eve.holt@reqres.in');
@@ -15,7 +16,9 @@ const index = () => {
 
   const router = useRouter();
 
-  const [user, LoginUser, LogoutUser, error] = useAuth();
+  const { user } = useQuizContext();
+
+  const [LoginUser, LogoutUser] = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();

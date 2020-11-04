@@ -6,17 +6,17 @@ import Button from '@material-ui/core/Button';
 import useAuth from '../../hooks/useAuth';
 import Link from 'next/link';
 import styles from './header.module.css';
-import useLoading from '../../hooks/useLoading';
 import Loader from '../loader/Loader.jsx';
+import { useQuizContext } from '../../hooks/quizContext';
 
 const Header = () => {
-  const [user, _, logoutUser, __] = useAuth();
-  const [isLoading] = useLoading();
+  const { user, isLoading } = useQuizContext();
+  const [_, logoutUser] = useAuth();
 
   return (
     <div className={styles.root}>
       <AppBar position="static">
-        {isLoading && <Loader />}
+        {isLoading ? <Loader /> : ''}
         <Toolbar>
           <Typography variant="h5" className={styles.title}>
             <Button color="inherit">

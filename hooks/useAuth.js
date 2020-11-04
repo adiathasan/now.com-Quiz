@@ -1,27 +1,19 @@
-import { useState } from 'react';
 import { instanceAxios } from '../config/axios';
+import { LOADING_END, LOADING_START } from '../constants/loaderConstants';
+import {
+  USER_LOGIN_FAILURE,
+  USER_LOGIN_SUCCESS,
+  USER_LOGOUT_SUCCESS,
+} from '../constants/userConstants';
+import { useQuizContext } from './quizContext';
 
 const useAuth = () => {
-  // localstorage config
-
-  let getUserFromLocalStorage;
-  const isServer = typeof window === 'undefined';
-
-  if (!isServer) {
-    const isUserInLocalStorage = localStorage.getItem('userInfo');
-    getUserFromLocalStorage = isUserInLocalStorage
-      ? JSON.parse(localStorage.getItem('userInfo'))
-      : null;
-  }
-
-  //  local states
-
-  const [user, setUser] = useState(getUserFromLocalStorage);
-  const [error, setError] = useState('');
+  const { dispatch } = useQuizContext();
 
   // login user
 
   const LoginUser = async (credentials) => {
+    dispatch({ type: LOADING_START });
     try {
       const config = {
         headers: {
@@ -29,21 +21,21 @@ const useAuth = () => {
         },
       };
       const { data } = await instanceAxios.post('/login', credentials, config);
-      localStorage.setItem('userInfo', JSON.stringify(data));
-      setUser(data);
-    } catch (error) {
-      setError(error);
+      dispatch({ type: LOADING_END });
+      dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+    } catch (err) {
+      dispatch({ type: LOADING_END });
+      dispatch({ type: USER_LOGIN_FAILURE, payload: err?.error });
     }
   };
 
   // logout user
 
   const LogoutUser = () => {
-    setUser(null);
-    localStorage.removeItem('userInfo');
+    dispatch({ type: USER_LOGOUT_SUCCESS });
   };
 
-  return [user, LoginUser, LogoutUser, error];
+  return [LoginUser, LogoutUser];
 };
 
 export default useAuth;
