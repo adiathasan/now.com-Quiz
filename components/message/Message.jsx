@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert } from '@material-ui/lab';
+import styles from './message.module.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,10 +15,12 @@ const useStyles = makeStyles((theme) => ({
 const Message = ({ message, type = 'error' }) => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <Alert variant="filled" severity={type}>
-        {message} — !
-      </Alert>
+    <div className={styles.message}>
+      <div className={classes.root}>
+        <Alert variant="filled" severity={type}>
+          {message} — !
+        </Alert>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,17 @@
+.message {
+  position: absolute;
+  top: -10vh;
+  animation: slide-down 0.5s ease-in forwards;
+  min-width: 100%;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-50vh);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

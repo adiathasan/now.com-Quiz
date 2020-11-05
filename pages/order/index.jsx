@@ -4,7 +4,6 @@ import { Button, Typography } from '@material-ui/core';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useOrder from '../../hooks/useOrder';
-import Header from '../../components/header/Header';
 import styles from './order.module.css';
 import Message from '../../components/message/Message.jsx';
 import { useQuizContext } from '../../hooks/quizContext';
@@ -200,7 +199,6 @@ const index = () => {
         <title>Now Quiz | Order</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
       <div className={styles.order}>
         <form className={styles.order__textForm} onSubmit={handleSubmit}>
           <Typography variant="body1">Paste Your Order Here</Typography>

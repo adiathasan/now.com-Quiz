@@ -4,7 +4,6 @@ import styles from './login.module.css';
 import { Button, TextField } from '@material-ui/core';
 import Head from 'next/head';
 import useAuth from '../../hooks/useAuth';
-import Header from '../../components/header/Header.jsx';
 import Message from '../../components/message/Message.jsx';
 import { useQuizContext } from '../../hooks/quizContext';
 
@@ -50,8 +49,6 @@ const index = () => {
         <title>Now Quiz | Log In</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
-
       <div className={styles.login}>
         <form
           className={styles.login__form}
