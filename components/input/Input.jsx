@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../pages/order/order.module.css';
+import styles from '../../pages/order/order.module.css';
 
 const Input = ({ type, id, value, setValue, handleDown, handleUp }) => {
   return (

@@ -5,10 +5,10 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import useOrder from '../../hooks/useOrder';
 import styles from './order.module.css';
-import Message from '../../components/message/Message.jsx';
+import Message from '../../components/message/Message';
 import { useQuizContext } from '../../hooks/quizContext';
 import { ORDER_RESET } from '../../constants/orderConstants';
-import Input from '../../components/Input';
+import Input from '../../components/Input/Input';
 
 const index = () => {
   // hooks
