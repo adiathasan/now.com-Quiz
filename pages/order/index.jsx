@@ -270,7 +270,7 @@ const index = () => {
             type="text"
             id="message"
             value={message}
-            setValue={setName}
+            setValue={setMessage}
             handleUp={handleUp}
           />
           <Button
