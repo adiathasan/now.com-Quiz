@@ -12,18 +12,24 @@
 
 .order::after,
 .order::before {
+  content: '';
   position: absolute;
-  bottom: 0;
+  top: -5rem;
   left: 0;
-  right: 0;
-  width: 100px;
+  width: 100%;
   height: 200px;
-  background-color: blue;
+  background: linear-gradient(180deg, #482ce9, #105cff8a);
+  z-index: -100;
+  transform: skewY(2.5deg);
 }
 
 .order__textForm {
   width: 350px;
   max-width: 100%;
+}
+
+.order__textFormHeader {
+  color: white;
 }
 
 .order__textarea {
@@ -32,6 +38,7 @@
 }
 
 .order__mainForm {
+  background-color: white;
   margin-top: 0.3rem;
   width: 350px;
   padding: 3rem;

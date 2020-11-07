@@ -8,6 +8,7 @@ import styles from './order.module.css';
 import Message from '../../components/message/Message.jsx';
 import { useQuizContext } from '../../hooks/quizContext';
 import { ORDER_RESET } from '../../constants/orderConstants';
+import Input from '../../components/Input';
 
 const index = () => {
   // hooks
@@ -63,6 +64,24 @@ const index = () => {
     }
   }, [error]);
 
+  // data cleaning @helper func
+
+  const dataCleaner = (textAreaInput) => {
+    let cleanedData = textAreaInput.filter((inp) => inp !== '');
+
+    const isInputLengthOk = cleanedData.length >= 5;
+    const startPosFill = cleanedData.length + 1;
+    const endPosFill = 5 - cleanedData.length;
+
+    cleanedData = isInputLengthOk
+      ? [...cleanedData]
+      : [...cleanedData, ...Array(4).fill('', startPosFill, endPosFill)];
+
+    return {
+      cleanedData,
+    };
+  };
+
   // @auto fill func
 
   const handleSubmit = (e) => {
@@ -72,15 +91,7 @@ const index = () => {
 
     // cleanig the data
 
-    let cleanedData = breakedInput.filter((inp) => inp !== '');
-
-    const isInputLengthOk = cleanedData.length >= 5;
-    const startPosFill = cleanedData.length + 1;
-    const endPosFill = 5 - cleanedData.length;
-
-    cleanedData = isInputLengthOk
-      ? [...cleanedData]
-      : [...cleanedData, ...Array(4).fill('', startPosFill, endPosFill)];
+    const { cleanedData } = dataCleaner(breakedInput);
 
     const addressPositioning = cleanedData.length - 2;
     const cleanedAddress =
@@ -201,7 +212,9 @@ const index = () => {
       </Head>
       <div className={styles.order}>
         <form className={styles.order__textForm} onSubmit={handleSubmit}>
-          <Typography variant="body1">Paste Your Order Here</Typography>
+          <Typography variant="body1" className={styles.order__textFormHeader}>
+            Paste Your Order Here
+          </Typography>
           <textarea
             required
             className={styles.order__textarea}
@@ -222,95 +235,44 @@ const index = () => {
             <Message message={alertMessage} type={messageType} />
           )}
           <Typography variant="body1">Swipe If You Need To</Typography>
-          <div>
-            <input
-              required
-              className={styles.order__input}
-              type="text"
-              value={name}
-              placeholder="name..."
-              id="name"
-              onChange={(e) => setName(e.target.value)}
-            />
-            <div className="swipe">
-              <button onClick={handleDown} className={styles.btn__down}>
-                Down
-              </button>
-            </div>
-          </div>
-          <div>
-            <input
-              required
-              className={styles.order__input}
-              type="text"
-              value={phone}
-              placeholder="phone..."
-              id="phone"
-              onChange={(e) => setPhone(e.target.value)}
-            />
-            <div className="swipe">
-              <button onClick={handleUp} className={styles.btn__up}>
-                up
-              </button>
-              <button onClick={handleDown} className={styles.btn__down}>
-                Down
-              </button>
-            </div>
-          </div>
-          <div>
-            <textarea
-              required
-              className={styles.order__input}
-              type="text"
-              value={address}
-              placeholder="address..."
-              id="address"
-              onChange={(e) => setAddress(e.target.value)}
-            />
-            <div className="swipe">
-              <button onClick={handleUp} className={styles.btn__up}>
-                up
-              </button>
-              <button onClick={handleDown} className={styles.btn__down}>
-                Down
-              </button>
-            </div>
-          </div>
-          <div>
-            <input
-              required
-              className={styles.order__input}
-              type="text"
-              value={amount}
-              placeholder="amount..."
-              id="amount"
-              onChange={(e) => setAmount(e.target.value)}
-            />
-            <div className="swipe">
-              <button onClick={handleUp} className={styles.btn__up}>
-                up
-              </button>
-              <button onClick={handleDown} className={styles.btn__down}>
-                Down
-              </button>
-            </div>
-          </div>
-          <div>
-            <input
-              required
-              className={styles.order__input}
-              type="text"
-              value={message}
-              placeholder="message..."
-              id="message"
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <div className="swipe">
-              <button onClick={handleUp} className={styles.btn__up}>
-                up
-              </button>
-            </div>
-          </div>
+          <Input
+            type="text"
+            id="name"
+            value={name}
+            setValue={setName}
+            handleDown={handleDown}
+          />
+          <Input
+            type="text"
+            id="phone"
+            value={phone}
+            setValue={setPhone}
+            handleDown={handleDown}
+            handleUp={handleUp}
+          />
+          <Input
+            type="text"
+            id="address"
+            value={address}
+            setValue={setAddress}
+            handleDown={handleDown}
+            handleUp={handleUp}
+          />
+          <Input
+            type="text"
+            id="amount"
+            value={amount}
+            setValue={setAmount}
+            handleUp={handleUp}
+            handleDown={handleDown}
+          />
+          <Input
+            type="text"
+            id="message"
+            value={message}
+            setValue={setName}
+            handleUp={handleUp}
+          />
           <Button
             fullWidth
             variant="contained"
