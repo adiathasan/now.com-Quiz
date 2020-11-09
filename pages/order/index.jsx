@@ -8,7 +8,7 @@ import styles from './order.module.css';
 import Message from '../../components/message/Message';
 import { useQuizContext } from '../../hooks/quizContext';
 import { ORDER_RESET } from '../../constants/orderConstants';
-import Input from '../../components/Input/Input';
+import Input from '../../components/input/Input';
 
 const index = () => {
   // hooks
