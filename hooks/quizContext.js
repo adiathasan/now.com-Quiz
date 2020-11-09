@@ -65,7 +65,7 @@ const reducer = (state, action) => {
 // localstorage config
 
 let getUserFromLocalStorage;
-const isServer = typeof window === 'undefined';
+export const isServer = typeof window === 'undefined';
 
 if (!isServer) {
   const isUserInLocalStorage = localStorage.getItem('userInfo');

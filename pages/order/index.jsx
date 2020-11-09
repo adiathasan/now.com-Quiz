@@ -210,6 +210,7 @@ const index = () => {
         <title>Now Quiz | Order</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {alertMessage && <Message message={alertMessage} type={messageType} />}
       <div className={styles.order}>
         <form className={styles.order__textForm} onSubmit={handleSubmit}>
           <Typography variant="body1" className={styles.order__textFormHeader}>
@@ -231,9 +232,6 @@ const index = () => {
           className={styles.order__mainForm}
           onSubmit={handleSubmitCleanedData}
         >
-          {alertMessage && (
-            <Message message={alertMessage} type={messageType} />
-          )}
           <Typography variant="body1">Swipe If You Need To</Typography>
           <Input
             type="text"

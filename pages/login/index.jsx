@@ -49,6 +49,7 @@ const index = () => {
         <title>Now Quiz | Log In</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {alertMessage && <Message message={alertMessage} type={messageType} />}
       <div className={styles.login}>
         <form
           className={styles.login__form}
@@ -81,9 +82,6 @@ const index = () => {
           <Button fullWidth variant="contained" color="primary" type="submit">
             submit
           </Button>
-          {alertMessage && (
-            <Message message={alertMessage} type={messageType} />
-          )}
         </form>
       </div>
     </>

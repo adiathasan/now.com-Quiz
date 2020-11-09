@@ -5,6 +5,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  margin-top: 2rem;
 }
 
 .login::after,
@@ -15,7 +16,7 @@
   left: 0;
   width: 100%;
   height: 200px;
-  background: linear-gradient(180deg, #482ce9, #1070ff);
+  background: var(--primary-color);
   z-index: -100;
   transform: skewY(2.5deg);
 }
